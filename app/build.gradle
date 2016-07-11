@@ -51,17 +51,14 @@ dependencies {
         exclude module: 'support-annotations'
     }
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
-        exclude group: 'javax.inject'
         exclude group: 'com.android.support'
         exclude module: 'support-annotations'
     }
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
-        exclude group: 'javax.inject'
         exclude group: 'com.android.support'
         exclude module: 'support-annotations'
     }
     androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1') {
-        exclude group: 'javax.inject'
         exclude group: 'com.android.support'
         exclude module: 'support-annotations'
     }
