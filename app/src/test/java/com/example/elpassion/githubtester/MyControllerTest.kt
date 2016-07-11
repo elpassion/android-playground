@@ -31,10 +31,19 @@ class MyControllerTest {
     }
 
     @Test
-    fun testShouldShowQueryResults() {
+    fun testShouldShowQueryResultsWhenNotEmpty() {
+        val results = Users(users = listOf(User("1")))
+        whenever(api.call(any())).thenReturn(Observable.just(results))
         controller.onQueryChanged("asdasd")
 
-        verify(view).showResults(any<Users>())
+        verify(view).showResults(results)
+    }
+
+    @Test
+    fun testShouldShowEmptyResultsPlaceholderWhenResultsAreEmpty() {
+        controller.onQueryChanged("asdasd")
+
+        verify(view).showEmptyListPlaceholder()
     }
 
     @Test
@@ -66,7 +75,7 @@ interface MyView {
     fun showError(throwable: Throwable)
 }
 
-data class Users(val user: List<User>)
+data class Users(val users: List<User>)
 
 data class User(val id: String)
 
@@ -78,7 +87,11 @@ class MyController(val view: MyView, val api: GithubApi) {
 
     fun onQueryChanged(query: String) {
         api.call(query).subscribe({
-            view.showResults(Users(emptyList()))
+            if (it.users.isNotEmpty()) {
+                view.showResults(it)
+            } else {
+                view.showEmptyListPlaceholder()
+            }
         }, {
             view.showError(it)
         })
