@@ -1,9 +1,6 @@
 package com.example.elpassion.githubtester
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
 import rx.Observable
@@ -47,6 +44,14 @@ class MyControllerTest {
 
         verify(view).showError(any<Throwable>())
     }
+
+    @Test
+    fun testShouldNotShowResultsIfErrorOccurs() {
+        whenever(api.call(any())).thenReturn(Observable.error(RuntimeException()))
+        controller.onQueryChanged("asd")
+
+        verify(view, never()).showResults(any())
+    }
 }
 
 interface GithubApi {
@@ -73,10 +78,9 @@ class MyController(val view: MyView, val api: GithubApi) {
 
     fun onQueryChanged(query: String) {
         api.call(query).subscribe({
-
+            view.showResults(Users(emptyList()))
         }, {
             view.showError(it)
         })
-        view.showResults(Users(emptyList()))
     }
 }
