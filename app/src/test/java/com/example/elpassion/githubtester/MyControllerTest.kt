@@ -1,5 +1,6 @@
 package com.example.elpassion.githubtester
 
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
@@ -23,6 +24,14 @@ class MyControllerTest {
 
         verify(api).call(query)
     }
+
+    @Test
+    fun testShouldShowQueryResults() {
+        val query = "asdasd"
+        controller.onQueryChanged(query)
+
+        verify(view).showResults(any<Users>())
+    }
 }
 
 interface GithubApi {
@@ -31,7 +40,14 @@ interface GithubApi {
 
 interface MyView {
     fun showEmptyListPlaceholder()
+
+    fun showResults(users: Users)
 }
+
+data class Users(val user: List<User>)
+
+data class User(val id: String)
+
 
 class MyController(val view: MyView, val api: GithubApi) {
     fun onCreate() {
@@ -40,5 +56,6 @@ class MyController(val view: MyView, val api: GithubApi) {
 
     fun onQueryChanged(query: String) {
         api.call(query)
+        view.showResults(Users(emptyList()))
     }
 }
