@@ -1,6 +1,6 @@
-package com.example.elpassion.githubtester
+package com.example.elpassion.githubtester.search
 
-interface MyView {
+interface GitHubResultsView {
     fun showEmptyListPlaceholder()
 
     fun showResults(users: Users)

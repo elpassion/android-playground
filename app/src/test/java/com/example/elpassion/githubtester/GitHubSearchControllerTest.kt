@@ -1,15 +1,16 @@
 package com.example.elpassion.githubtester
 
+import com.example.elpassion.githubtester.search.*
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
 import rx.Observable
 
 
-class MyControllerTest {
-    val api = mock<GithubApi>()
-    val view = mock<MyView>()
-    val controller = MyController(view, api)
+class GitHubSearchControllerTest {
+    val api = mock<GitHubApi>()
+    val view = mock<GitHubResultsView>()
+    val controller = GitHubSearchController(view, api)
 
     @Before
     fun setUp() {

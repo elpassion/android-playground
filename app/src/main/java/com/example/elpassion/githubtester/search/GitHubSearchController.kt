@@ -1,6 +1,9 @@
-package com.example.elpassion.githubtester
+package com.example.elpassion.githubtester.search
 
-class MyController(val view: MyView, val api: GithubApi) {
+import com.example.elpassion.githubtester.search.GitHubApi
+import com.example.elpassion.githubtester.search.GitHubResultsView
+
+class GitHubSearchController(val view: GitHubResultsView, val api: GitHubApi) {
     fun onCreate() {
         view.showEmptyListPlaceholder()
     }
