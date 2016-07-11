@@ -62,38 +62,3 @@ class MyControllerTest {
         verify(view, never()).showResults(any())
     }
 }
-
-interface GithubApi {
-    fun call(query: String): Observable<Users>
-}
-
-interface MyView {
-    fun showEmptyListPlaceholder()
-
-    fun showResults(users: Users)
-
-    fun showError(throwable: Throwable)
-}
-
-data class Users(val users: List<User>)
-
-data class User(val id: String)
-
-
-class MyController(val view: MyView, val api: GithubApi) {
-    fun onCreate() {
-        view.showEmptyListPlaceholder()
-    }
-
-    fun onQueryChanged(query: String) {
-        api.call(query).subscribe({
-            if (it.users.isNotEmpty()) {
-                view.showResults(it)
-            } else {
-                view.showEmptyListPlaceholder()
-            }
-        }, {
-            view.showError(it)
-        })
-    }
-}
